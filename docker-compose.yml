@@ -1,0 +1,43 @@
+#バージョン指定(固定)
+version: '3'
+
+#docker volumeの作成(他のコンテナと共有したい)
+volumes:
+  db-data:
+
+#サービスを記述
+services:
+  #webのサービスを記述(railsのコンテナ作成)
+  web:
+    #docker build .
+    build: .
+    #-p
+    ports:
+      - '3000:3000'
+    #-v
+    volumes:
+      - '.:/product-register'
+    #ENV
+    environment:
+      - 'DATABASE_PASSWORD=postgres'
+    #-it
+    tty: true
+    stdin_open: true
+    #指定したサービス実行後にrunする
+    depends_on:
+      - db
+    #指定したサービスへのアクセスを許可
+    links:
+      - db
+    
+
+  #dbのサービスを記述(postgresのコンテナを作成)
+  db:
+    #Dockerhubからイメージを取得
+    image: postgres
+    #-v
+    volumes:
+      - 'db-data:/var/lib/postgresql/data'
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=postgres'
