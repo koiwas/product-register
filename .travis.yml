@@ -1,21 +1,28 @@
+#権限の設定(ルート)
 sudo: required
 
+#Docker使用
 services: docker
 
+#インストール前の実行内容
 before_install:
   - docker-compose up --build -d
+  #HEROKUのDockerレジストリにログイン
   - docker login -u "$HEROKU_USERNAME" -p "$HEROKU_API_KEY" registry.heroku.com
 
+#テスト実行
 script:
   - docker-compose exec --env 'RAILS_ENV=test' web rails db:create
   - docker-compose exec --env 'RAILS_ENV=test' web rails db:migrate
   - docker-compose exec --env 'RAILS_ENV=test' web rails test
 
+#本番環境にデプロイ
 deploy:
   provider: script
   script:
     docker build -t registry.heroku.com/$HEROKU_APP_NAME/web -f Dockerfile.prod .;
     docker push registry.heroku.com/$HEROKU_APP_NAME/web;
     heroku run --app "$HEROKU_APP_NAME" rails db:migrate;
+  #masterにmergeされた時飲み
   on:
     branch: master
