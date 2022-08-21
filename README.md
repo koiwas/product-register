@@ -92,7 +92,7 @@ $ docker-compose down
 
 5. ADD Config Vars
 ```
-SECRET_KEY_BASE：master.key
+SECRET_KEY_BASE：{master.key}
 ```
 
 6. Install HEROKU CLI
