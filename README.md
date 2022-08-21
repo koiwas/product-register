@@ -56,7 +56,7 @@ $ docker-compose ps
 $ docker-compose exec web bash
 ```
 
-4. Start Rails Server
+4. Start Rails Server & accsess 'localhost:3000'
 ```
 $ rails s -b 0.0.0.0
 ```
