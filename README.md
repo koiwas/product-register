@@ -61,7 +61,7 @@ $ docker-compose exec web bash
 $ rails s -b 0.0.0.0
 ```
 
-5. If　you want to check or modify the code
+5. If you want to check or modify the code
 ```
 $ code .
 ```
